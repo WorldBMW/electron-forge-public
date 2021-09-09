@@ -1,0 +1,98 @@
+{
+  "name": "my-app-electron",
+  "productName": "my-app",
+  "version": "1.1.4",
+  "description": "My Electron application description",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "echo \"No linting configured\""
+  },
+  "keywords": [],
+  "author": {
+    "name": "m15004097511@163.com",
+    "email": "m15004097511@163.com"
+  },
+  "license": "MIT",
+  "config": {
+    "forge": {
+      "electronPackagerConfig": {
+        "appBundleId": "com.electron.test"
+      },
+      "publishers": [
+        {
+          "name": "@electron-forge/publisher-github",
+          "platforms": [
+            "darwin"
+          ],
+          "config": {
+            "repository": {
+              "baseUrl": "https://example.com/postreceive",
+              "channel": "stable",
+              "username": "m15004097511@163.com",
+              "password": "bmw198610",
+              "owner": "me",
+              "name": "awesome-thing"
+            },
+            "prerelease": true
+          }
+        }
+      ],
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "my_app",
+            "authors": "m15004097511@163.com",
+            "certificatePassword": "bmw198610",
+            "iconUrl": "https://example.com/postreceive"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ],
+          "options": {
+            "maintainer": "electron",
+            "homepage": "https://example.com/postreceive"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {
+            "options": {
+              "maintainer": "electron",
+              "homepage": "https://example.com/postreceive"
+            }
+          }
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {
+            "options": {
+              "maintainer": "electron",
+              "homepage": "https://example.com/postreceive"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0",
+    "update-electron-app": "^2.0.1"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.60",
+    "@electron-forge/maker-deb": "^6.0.0-beta.60",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.60",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.60",
+    "@electron-forge/maker-zip": "^6.0.0-beta.60",
+    "electron": "14.0.0"
+  }
+}
