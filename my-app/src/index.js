@@ -50,7 +50,7 @@ const { autoUpdater } = require('electron')
 const { version } = require('./package')
 
 // const server = 'https://update.electronjs.org'
-const server = 'https://example.com/postreceive'
+const server = 'http://localhost:8089'
 const feed = `${server}/electron/update-server/${process.platform}/${version}`
 
 console.log(`Current version: ${version}`)
@@ -70,18 +70,25 @@ autoUpdater.on('update-not-available', () => {
   console.log('update-not-available')
 })
 
-autoUpdater.on(
-  'update-downloaded',
-  (event, releaseNotes, releaseName, updateURL) => {
-    console.log('update-downloaded', {
-      event,
-      releaseNotes,
-      releaseName,
-      updateURL
-    })
+autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
+  const dialogOpts = {
+    type: 'info',
+    buttons: ['Restart', 'Later'],
+    title: 'Application Update',
+    message: process.platform === 'win32' ? releaseNotes : releaseName,
+    detail: 'A new version has been downloaded. Restart the application to apply the updates.'
   }
-)
 
-autoUpdater.on('error', error => {
-  console.log('error', { error })
+  dialog.showMessageBox(dialogOpts).then((returnValue) => {
+    if (returnValue.response === 0) autoUpdater.quitAndInstall()
+  })
+})
+
+setInterval(() => {
+  autoUpdater.checkForUpdates()
+}, 6000)
+
+autoUpdater.on('error', message => {
+  console.error('There was a problem updating the application')
+  console.error(message)
 })
